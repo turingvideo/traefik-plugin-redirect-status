@@ -15,12 +15,16 @@ jobs:
       GOLANGCI_LINT_VERSION: v1.46.2
       YAEGI_VERSION: v0.13.0
       CGO_ENABLED: 0
+    defaults:
+      run:
+        working-directory: ${{ github.workspace }}/go/src/github.com/${{ github.repository }}
 
     steps:
 
       - name: Set up Go ${{ env.GO_VERSION }}
         uses: actions/setup-go@v2
         with:
+          path: go/src/github.com/${{ github.repository }}
           go-version: ${{ env.GO_VERSION }}
 
       - name: Check out code
