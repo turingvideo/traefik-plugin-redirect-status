@@ -85,13 +85,6 @@ func (r *redirectStatus) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	}
 }
 
-type responseInterceptor interface {
-	http.ResponseWriter
-	http.Flusher
-	getCode() int
-	isFilteredCode() bool
-}
-
 // codeCatcher is a response writer that detects as soon as possible whether the
 // response is a code within the ranges of codes it watches for. If it is, it
 // simply drops the data from the response. Otherwise, it forwards it directly to
@@ -105,25 +98,12 @@ type codeCatcher struct {
 	headersSent        bool
 }
 
-type codeCatcherWithCloseNotify struct {
-	*codeCatcher
-}
-
-// CloseNotify returns a channel that receives at most a
-// single value (true) when the client connection has gone away.
-func (cc *codeCatcherWithCloseNotify) CloseNotify() <-chan bool {
-	return cc.responseWriter.(http.CloseNotifier).CloseNotify()
-}
-
-func newCodeCatcher(rw http.ResponseWriter, httpCodeRanges types.HTTPCodeRanges) responseInterceptor {
+func newCodeCatcher(rw http.ResponseWriter, httpCodeRanges types.HTTPCodeRanges) *codeCatcher {
 	catcher := &codeCatcher{
 		headerMap:      make(http.Header),
 		code:           http.StatusOK, // If backend does not call WriteHeader on us, we consider it's a 200.
 		responseWriter: rw,
 		httpCodeRanges: httpCodeRanges,
-	}
-	if _, ok := rw.(http.CloseNotifier); ok {
-		return &codeCatcherWithCloseNotify{catcher}
 	}
 	return catcher
 }
