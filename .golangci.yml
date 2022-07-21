@@ -40,6 +40,7 @@ linters:
     - forcetypeassert # Too strict
     - stylecheck # skip because report issues related to some generated files.
     - ireturn # not relevant
+    - staticcheck # deprecated codes
     - dupl
     - testpackage
     - tparallel
