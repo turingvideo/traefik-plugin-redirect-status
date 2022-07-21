@@ -36,6 +36,10 @@ linters:
     - exhaustivestruct # deprecated
     - cyclop # duplicate of gocyclo
     - bodyclose # Too many false positives: https://github.com/timakin/bodyclose/issues/30
+    - prealloc # Too many false-positive.
+    - forcetypeassert # Too strict
+    - stylecheck # skip because report issues related to some generated files.
+    - ireturn # not relevant
     - dupl
     - testpackage
     - tparallel
