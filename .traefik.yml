@@ -1,0 +1,11 @@
+displayName: Redirect Status Plugin
+type: middleware
+
+import: github.com/turingvideo/traefik-plugin-redirect-status
+
+summary: 'Redirect Status'
+
+testData:
+  Status:
+  - "401-403"
+  To: "https://example.org"
