@@ -24,12 +24,12 @@ jobs:
       - name: Set up Go ${{ env.GO_VERSION }}
         uses: actions/setup-go@v2
         with:
-          path: go/src/github.com/${{ github.repository }}
           go-version: ${{ env.GO_VERSION }}
 
       - name: Check out code
         uses: actions/checkout@v2
         with:
+          path: go/src/github.com/${{ github.repository }}
           fetch-depth: 0
 
       - name: Cache Go modules
